@@ -1,0 +1,56 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{parskip}
+%\usepackage[margin=1in]{geometry}
+\newcommand{\encode}[1]{\langle #1 \rangle}
+
+\let\tab\quad
+
+\title{\bf Assignment 1 \\[2ex]
+\rm\normalsize CS 531 \\ Due January 16, 2019}
+\date{January 13, 20190}
+\author{Jason Graalum}
+
+\begin{document}
+\maketitle
+
+\begin{itemize}
+\item Read the Class Syllabus (the class webpage is cs.pdx.edu/~karavan/perf ).
+\item We will follow these steps in the Linux Lab during our class period:
+\item Read and Step through the examples in the Introduction to Gprof link from the class Lectures page
+\item Read the gprof paper (the 2004 version):\\
+Susan L. Graham, Peter B. Kessler, and Marshall K. McKusick. 2004. gprof: a call graph execution profiler. SIGPLAN Not. 39, 4 (April 2004), 49-57.
+\end{itemize}
+Submit your answers to the following questions:\\
+ 
+\paragraph{Question 3A} gprof hands-on\\
+In this exercise you will use gprof to examine and improve a piece of code called simpleCode.c. Turn in your answer to question 4.
+
+\begin{enumerate}
+\item Look over the source code provided. Build and run the code. Step through the code in the debugger, examining the values of number and searchkey.
+\item Evaluate the code using gprof
+\item Define and try a few changes to the code to improve the performance
+\item Write a short summary of what you learned about the code, what you tried and why, the results,
+and whether or not the results matched your expectations.
+\end{enumerate}
+
+\paragraph{Question 3B} Questions on the reading:\\
+\begin{enumerate}
+\item What is the difference between their “dynamic call graph” and “static call graph”? Can you give
+an example of something that would not appear in a dynamic call graph but would appear in a static call graph?
+\item $[$ old paper alert $]$ What is a “time-sharing” system? We don’t use this term much anymore, but we use time-sharing systems all the time. What is an example of one you use at PSU?
+\item How accurate are the $\%$ time amounts reported by gprof?
+\item Gprof samples the program counter – what does this contain? What is the key benefit of this method? What is an important downside to this method?
+\item $[$From the 2003 update$]$ What was one challenge the authors mention to using the profiler on the operating system kernel?
+\end{enumerate}
+
+
+
+\paragraph{Question 3c} Showcasing gprof
+Develop a code in C or C++ that yields interesting results with gprof. You may use “example code 2” as a starting point. Think about what characteristics in the source code might lead to any of the following: an illustration of a case where gprof results are not quite accurate; an illustration of a difference between a longer function called a few times versus a shorter function called a large number of times; recursion; or any other gprof feature you want to highlight.
+Turn in your code plus a brief description of what it shows.
+
+
+
+
+\end{document}
