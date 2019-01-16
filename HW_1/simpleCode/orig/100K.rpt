@@ -1,0 +1,25 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  us/call  us/call  name    
+ 91.67      0.22     0.22    99999     2.20     2.20  BinarySearch
+  8.33      0.24     0.02                             main
+
+			Call graph
+
+
+granularity: each sample hit covers 4 byte(s) for 4.17% of 0.24 seconds
+
+index % time    self  children    called     name
+                                                 <spontaneous>
+[1]    100.0    0.02    0.22                 main [1]
+                0.22    0.00   99999/99999       BinarySearch [2]
+-----------------------------------------------
+                0.22    0.00   99999/99999       main [1]
+[2]     91.7    0.22    0.00   99999         BinarySearch [2]
+-----------------------------------------------
+
+Index by function name
+
+   [2] BinarySearch            [1] main

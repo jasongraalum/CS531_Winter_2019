@@ -5,20 +5,16 @@
 
 int BinarySearch(int searchkey, int low, int high, int array[]) {
 
-	while (low <= high) {
+	int answer = -1;
+	while (low !=  high) {
+		int Midpoint = (1 + low + high) / 2;
 
-		int Midpoint = (low + high) / 2;
-
-		if (searchkey == array[Midpoint]) {
-			return Midpoint;
-		} else if (searchkey > array[Midpoint]) {
-			low = Midpoint + 1;
-		} else if (searchkey < array[Midpoint]) {
-			high = Midpoint - 1;
-		}
-
+		if (array[Midpoint] > searchkey) { high = Midpoint - 1;}
+		else low = Midpoint;
 	}
-	return -1;
+	if (array[low] == searchkey) { answer = low; } 
+
+	return answer;
 }
 
 
@@ -42,7 +38,11 @@ int main() {
 	printf("How many searches would you like to make? ");
 	scanf("%d", &number);
 	for ( j = 0; j < (number-1); j++ ) {
+		low = 0;
+		high = 1000000-1;
+
 		searchkey = rand() % high;
+
 		answer = BinarySearch(searchkey, low, high, array);
 		printf("Search for %d Found %d\n", searchkey, answer);
 	}

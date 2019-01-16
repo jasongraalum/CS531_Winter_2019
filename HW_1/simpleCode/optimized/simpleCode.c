@@ -5,20 +5,16 @@
 
 int BinarySearch(int searchkey, int low, int high, int array[]) {
 
-	while (low <= high) {
+	int answer = -1;
+	while (low !=  high) {
+		int Midpoint = (1 + low + high) / 2;
 
-		int Midpoint = (low + high) / 2;
-
-		if (searchkey == array[Midpoint]) {
-			return Midpoint;
-		} else if (searchkey > array[Midpoint]) {
-			low = Midpoint + 1;
-		} else if (searchkey < array[Midpoint]) {
-			high = Midpoint - 1;
-		}
-
+		if (array[Midpoint] > searchkey) { high = Midpoint - 1;}
+		else low = Midpoint;
 	}
-	return -1;
+	if (array[low] == searchkey) { answer = low; } 
+
+	return answer;
 }
 
 
