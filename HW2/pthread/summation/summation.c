@@ -1,23 +1,22 @@
 //Copyright (c) 2019 Jason Graalum
-//
-// Summation routine usig pthreads
+// // Summation routine usig pthreads
 //
 // CS 531 Witer 2019
 // Jason Graalum
-// 
-// January 17, 2019
+// // January 17, 2019
 //
 
-#include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <pthread.h>
 
 void *sum_thread(void *vargp);
 
 typedef unsigned long data_t;
-volatile data_t global_sum;
-size_t nelems_per_thread;
-size_t nthreads;
+extern volatile data_t global_sum;
+extern size_t nelems_per_thread;
+extern size_t nthreads;
+extern data_t *sum;
 
 int main ( int argc, char **argv ) {
 
@@ -36,6 +35,7 @@ int main ( int argc, char **argv ) {
   nelems_per_thread = number/nthreads;
 
   tid = (pthread_t *) malloc(sizeof(pthread_t)*nthreads);
+  sum = (data_t *) malloc(sizeof(data_t)*nthreads);
 
   int *myid;
   myid = (int *)malloc(sizeof(int)*nthreads);
@@ -45,24 +45,18 @@ int main ( int argc, char **argv ) {
 /* Create threads and wait for them to finish */
   for (int i = 0; i < nthreads; i++) {
     myid[i] = i;
-    Pthread_create(&tid[i], NULL, sum_thread, &myid[i]);
+    pthread_create(&tid[i], NULL, sum_thread, &myid[i]);
   }
   for (int i = 0; i < nthreads; i++)
-    Pthread_join(tid[i], NULL);
+  {
+    pthread_join(tid[i], NULL);
+    global_sum += sum[i]; 
+    printf("Thread %d joined with %ld\n",i,sum[i]);
+  }
+
+  for (int i = nthreads * nelems_per_thread; i < number; i++)
+    global_sum += i;
+
+  printf("Global Sum = %ld\n", global_sum);
 
 }
-
-void *sum_thread(void *vargp)
-{
-    int myid = *((int *)vargp);
-    size_t start = myid * nelems_per_thread;
-    size_t end = start + nelems_per_thread;
-    size_t i;
-    for (i = start; i < end; i++) {
-       global_sum += i;
-}
-    return NULL;
-}
-
-
-
