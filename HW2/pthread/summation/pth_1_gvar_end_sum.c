@@ -1,6 +1,6 @@
 //Copyright (c) 2019 Jason Graalum
 //
-// Summation routine usig pthreads
+// Summation routine using pthreads
 //
 // CS 531 Witer 2019
 // Jason Graalum
@@ -8,28 +8,25 @@
 // January 17, 2019
 //
 
+#ifdef PTH_1_GVAR_END
 #include "summation.h"
 
-typedef unsigned long data_t;
-volatile data_t global_sum;
-size_t nelems_per_thread;
-size_t nthreads;
-
-data_t *sum;
-
-void *sum_thread_2(void *vargp)
+void *pth_1_gvar_end_sum(void *vargp)
 {
     int myid = *((int *)vargp);
     size_t start = myid * nelems_per_thread;
     size_t end = start + nelems_per_thread;
     size_t i;
-    sum[myid*ID_OFFSET_LEN] = 0;
+    data_t local_sum = 0;
     for (i = start; i < end; i++) {
-       sum[myid] += i;
-    }
+        local_sum += i;
 
-    return &sum;
+    }
+// Add locks
+    global_sum += local_sum;
+    return NULL;
 }
+#endif
 
 
 
