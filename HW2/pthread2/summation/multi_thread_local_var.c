@@ -24,7 +24,7 @@ void multi_thread_local_var(size_t iterations, size_t number, size_t nthreads, s
     time_data = (double *)malloc(sizeof(double)*iterations);
     process_data = (double *)malloc(sizeof(double)*iterations);
 
-    if(verbosity == '1')
+    if(verbosity == '3')
         printf("iterations = %zu\nnumber = %ld\tthreads = %zu\tcache_line_size = %zu\n", iterations, number, nthreads, cache_line_size);
 
 
@@ -84,7 +84,7 @@ void multi_thread_local_var(size_t iterations, size_t number, size_t nthreads, s
 
         if (verbosity == '1')
         {
-            printf("#%d,%lf,%lf\n", it, time_data[it], process_data[it]);
+            printf("#%d,%lf,%lf,%zu,%zu\n", it, time_data[it], process_data[it], nthreads, cache_line_size);
         }
 
         total_clock_time += time_data[it];

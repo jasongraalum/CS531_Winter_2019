@@ -7,6 +7,8 @@
 
 #include "summation.h"
 
+data_t single_thread_loop(size_t);
+
 void single_thread(size_t iterations, size_t number, char verbosity)
 {
     double total_clock_time;
@@ -39,8 +41,11 @@ void single_thread(size_t iterations, size_t number, char verbosity)
         clock_gettime(CLOCK_MONOTONIC, &ts_mono_start);
         clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &ts_process_start);
 
+        global_sum = single_thread_loop(number);
+        /*
         for(size_t i = 0; i < number; i++)
             global_sum += i;
+        */
 
         // Capture End Clocks
         clock_gettime(CLOCK_MONOTONIC, &ts_mono_end);
@@ -80,5 +85,14 @@ void single_thread(size_t iterations, size_t number, char verbosity)
         printf("Variance Clock = %lf\n", gsl_stats_variance(time_data,1,iterations));
         printf("StdDev Clock = %lf\n", gsl_stats_sd(time_data,1,iterations));
     }
+}
+
+data_t single_thread_loop(size_t number)
+{
+    data_t sum;
+    for (size_t i = 0; i < number; i++) {
+        sum += i;
+    }
+    return sum;
 }
 

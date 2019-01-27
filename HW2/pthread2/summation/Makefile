@@ -1,7 +1,7 @@
 IDIR=include
 CC=clang
 DEFINES=
-CFLAGS= -I$(IDIR) -I/usr/local/include -pthread -pg -g 
+CFLAGS= -I$(IDIR) -I/usr/local/include -pthread 
 
 ODIR=obj
 LDIR=lib
@@ -21,6 +21,8 @@ $(ODIR)/%.o: %.c $(DEPS)
 summation: $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS) -lgsl -lgslcblas $(LIBS)
 
+summation-pg: $(OBJ)
+	$(CC) -o $@ $^ $(CFLAGS) -pg -lgsl -lgslcblas $(LIBS)
 
 .PHONY: clean
 
