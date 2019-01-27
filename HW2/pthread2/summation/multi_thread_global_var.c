@@ -21,7 +21,8 @@ void multi_thread_global_var(size_t iterations, size_t number, size_t nthreads, 
     time_data = (double *)malloc(sizeof(double)*iterations);
     process_data = (double *)malloc(sizeof(double)*iterations);
 
-    //printf("iterations = %d\nnumber = %ld\tthreads = %ld\telems_per_thread = %ld\n", iterations, number, nthreads, nelems_per_thread);
+    if(verbosity == '1')
+        printf("iterations = %zu\nnumber = %ld\tthreads = %zu\tcache_line_size = %zu\n", iterations, number, nthreads, cache_line_size);
 
 
     // Init time vars
@@ -74,7 +75,7 @@ void multi_thread_global_var(size_t iterations, size_t number, size_t nthreads, 
         process_data[it] = (double)(10e9*(ts_process_end.tv_sec-ts_process_start.tv_sec)+(ts_process_end.tv_nsec-ts_process_start.tv_nsec));
         if (verbosity == '1')
         {
-            printf("#%d\tl%lf\t%lf\n", it, time_data[it], process_data[it]);
+            printf("#%d,%lf,%lf\n", it, time_data[it], process_data[it]);
         }
 
         total_clock_time += time_data[it];
@@ -93,7 +94,7 @@ void multi_thread_global_var(size_t iterations, size_t number, size_t nthreads, 
                 gsl_stats_variance(time_data,1,iterations),
                 gsl_stats_sd(time_data,1,iterations));
     }
-    else
+    else if (verbosity == '2')
     {
         printf("Sum = %zu\n", iterations);
         printf("Samples = %zu\n", iterations);

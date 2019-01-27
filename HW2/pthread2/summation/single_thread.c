@@ -19,6 +19,9 @@ void single_thread(size_t iterations, size_t number, char verbosity)
     time_data = (double *)malloc(sizeof(double)*iterations);
     process_data = (double *)malloc(sizeof(double)*iterations);
 
+    if(verbosity == '1')
+        printf("iterations = %zu\nnumber = %ld\n", iterations, number);
+
     total_clock_time = 0;
     total_proc_time = 0;
     for (int it = 0; it < iterations; it++) {
@@ -46,9 +49,10 @@ void single_thread(size_t iterations, size_t number, char verbosity)
         // Store timing data
         time_data[it] = (double)(10e9*(ts_mono_end.tv_sec-ts_mono_start.tv_sec)+(ts_mono_end.tv_nsec-ts_mono_start.tv_nsec));
         process_data[it] = (double)(10e9*(ts_process_end.tv_sec-ts_process_start.tv_sec)+(ts_process_end.tv_nsec-ts_process_start.tv_nsec));
+
         if (verbosity == '1')
         {
-            printf("#%d\tl%lf\t%lf\n", it, time_data[it], process_data[it]);
+            printf("#%d,%lf,%lf\n", it, time_data[it], process_data[it]);
         }
 
         total_clock_time += time_data[it];
@@ -65,7 +69,7 @@ void single_thread(size_t iterations, size_t number, char verbosity)
                 gsl_stats_variance(time_data,1,iterations),
                 gsl_stats_sd(time_data,1,iterations));
     }
-    else
+    else if(verbosity == '2')
     {
         printf("Sum = %llu\n", global_sum);
         printf("Samples = %zu\n", iterations);
