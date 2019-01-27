@@ -53,6 +53,15 @@ int main ( int argc, char **argv ) {
     double total_proc_time;
     data_t global_sum = 0;
 
+    struct pthread_arg_t {
+        int id;
+        size_t start_num;
+        size_t end_num;
+    };
+    struct pthread_arg_t *thread_args;
+    thread_args = (struct pthread_arg_t *)malloc(sizeof(struct pthread_arg_t));
+        
+
 #ifdef LEVEL1_DCACHE_LINESIZE
     int var_cache_spacing = LEVEL1_DCACHE_LINESIZE/sizeof(int);
 #else
@@ -116,13 +125,18 @@ int main ( int argc, char **argv ) {
         /* Create threads and wait for them to finish */
         for (int t = 0; t < nthreads; t++) 
         {
+            thread_args->id = t;
+            thread_args->start_num = t * nelems_per_thread;
+            thread_args->end_num = (t + 1) * nelems_per_thread;
+
             thread_id[t*var_cache_spacing] = t;
+            
 #ifdef PTH_1_GVAR_CONT
             pthread_create(&tid[t], NULL, pth_1_gvar_cont_sum, &thread_id[t*var_cache_spacing]);
 #elif PTH_1_GVAR_END
             pthread_create(&tid[t], NULL, pth_1_gvar_end_sum, &thread_id[t*var_cache_spacing]);
 #elif PTH_NTH_GVAR
-            pthread_create(&tid[t], NULL, pth_nth_gvar_sum, &thread_id[t*var_cache_spacing]);
+            pthread_create(&tid[t], NULL, pth_nth_gvar_sum, thread_args);
 #endif
         }
 

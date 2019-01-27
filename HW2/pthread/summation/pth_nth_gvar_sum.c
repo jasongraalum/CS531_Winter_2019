@@ -8,7 +8,7 @@
 // January 17, 2019
 //
 
-#ifdef PTH_1_GVAR_CONT
+#ifdef PTH_NTH_GVAR
 #include "summation.h"
 
 void *pth_nth_gvar_sum(void *vargp)

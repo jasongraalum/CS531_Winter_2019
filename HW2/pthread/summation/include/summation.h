@@ -10,10 +10,9 @@
 
 #include <gsl/gsl_statistics_double.h>
 
-
-
 #ifdef SPACE_VARS
   #define LEVEL1_DCACHE_LINESIZE 64
+  typedef char[LEVEL1_DCACHE_LINESIZE] cache_line_pack 
 #endif
 
 #endif // _SUMMATION_H_
