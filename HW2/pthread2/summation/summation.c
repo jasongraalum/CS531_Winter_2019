@@ -73,6 +73,17 @@ int main ( int argc, char **argv ) {
         //printf("Running multi threaded with global var. %zu iterations. Summing to %zu with %zu threads. Cache Line Size is %zu. Verbosity is %c\n",iterations, number, nthreads, cache_line_size, output_opt); 
         multi_thread_global_var(iterations, number, nthreads, cache_line_size, output_opt);
         break;
+    case 'G' : 
+        // Multithread with global var
+        // Set global var 
+        nthreads = (size_t) atoi(argv[arg_pos++]);
+        nelems_per_thread.val = number/nthreads;
+        if(argc > arg_pos) cache_line_size  = (size_t) atoi(argv[arg_pos++]);
+        if(argc > arg_pos) output_opt  = (char) argv[arg_pos++][0];
+
+        //printf("Running multi threaded with global var. %zu iterations. Summing to %zu with %zu threads. Cache Line Size is %zu. Verbosity is %c\n",iterations, number, nthreads, cache_line_size, output_opt); 
+        multi_thread_global_fine_mutex(iterations, number, nthreads, cache_line_size, output_opt);
+        break;
     case 'l' : 
         // Multithread with a local variable and return value from thread
         // Set global var 

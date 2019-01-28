@@ -1,5 +1,5 @@
 #!/bin/bash
-number=100000000
+number=1000000000
     echo "Sum\tSamples\tMean Clock\tMax Clock\tMin Clock\tMedian Clock\tVariance Clock\tStdDev Clock\n"
 echo $number
 ./summation s 30 $number 1

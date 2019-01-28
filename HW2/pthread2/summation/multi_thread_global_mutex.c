@@ -96,12 +96,14 @@ void *thread_loop(void *vargp)
     size_t start = myid * nelems_per_thread;
     size_t end = start + nelems_per_thread;
     size_t i;
+    data_t local_sum = 0;
     // Critical Section
-        pthread_mutex_lock(&global_sum_lock);
         //printf("Locked(%d)\n",myid);
     for (i = start; i < end; i++) {
-        global_sum += i;
+        local_sum += i;
     }
+        pthread_mutex_lock(&global_sum_lock);
+        global_sum += local_sum;
         //printf("Unlocked(%d)\n",myid);
         pthread_mutex_unlock(&global_sum_lock);
 

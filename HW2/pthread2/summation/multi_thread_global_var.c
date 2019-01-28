@@ -12,12 +12,13 @@ void *thread_loop(void *);
 
 void multi_thread_global_var(size_t iterations, size_t number, size_t nthreads, size_t cache_line_size, char verbosity)
 {
-    double total_clock_time;
+    int total_clock_time;
     double total_proc_time;
 
     // Output data variables
     float min, max, mean, median, variance, std_dev;
-    double *time_data, *process_data; 
+    double *time_data; 
+    double *process_data; 
     time_data = (double *)malloc(sizeof(double)*iterations);
     process_data = (double *)malloc(sizeof(double)*iterations);
 
@@ -43,14 +44,17 @@ void multi_thread_global_var(size_t iterations, size_t number, size_t nthreads, 
         // Setup struct for time keeping
         // Instead of using timeofday, I decided to use the CPU and PROCESS timers
         //
-        struct timespec ts_mono_start;
-        struct timespec ts_mono_end;
+        //struct timespec ts_mono_start;
+        //struct timespec ts_mono_end;
         struct timespec ts_process_start;
         struct timespec ts_process_end;
+        struct timeval t_time_start;
+        struct timeval t_time_end;
 
         // Capture Start Clocks
-        clock_gettime(CLOCK_MONOTONIC, &ts_mono_start);
+        //clock_gettime(CLOCK_MONOTONIC, &ts_mono_start);
         clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &ts_process_start);
+        gettimeofday(&t_time_start, NULL);
 
         for(size_t t = 0; t < nthreads; t++)
         {
@@ -67,15 +71,18 @@ void multi_thread_global_var(size_t iterations, size_t number, size_t nthreads, 
         }
 
         // Capture End Clocks
-        clock_gettime(CLOCK_MONOTONIC, &ts_mono_end);
+        //clock_gettime(CLOCK_MONOTONIC, &ts_mono_end);
+        gettimeofday(&t_time_end, NULL);
         clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &ts_process_end);
 
         // Store timing data
-        time_data[it] = (double)(10e9*(ts_mono_end.tv_sec-ts_mono_start.tv_sec)+(ts_mono_end.tv_nsec-ts_mono_start.tv_nsec));
+        //time_data[it] = (double)(10e9*(ts_mono_end.tv_sec-ts_mono_start.tv_sec)+(ts_mono_end.tv_nsec-ts_mono_start.tv_nsec));
+        time_data[it] = (double)(t_time_end.tv_sec - t_time_start.tv_sec);
         process_data[it] = (double)(10e9*(ts_process_end.tv_sec-ts_process_start.tv_sec)+(ts_process_end.tv_nsec-ts_process_start.tv_nsec));
         if (verbosity == '1')
         {
             printf("#%d,%lf,%lf,%zu,%zu\n", it, time_data[it], process_data[it], nthreads, cache_line_size);
+       //     printf("#%d,%lf,%zu,%zu\n", it, process_data[it], nthreads, cache_line_size);
         }
 
         total_clock_time += time_data[it];

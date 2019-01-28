@@ -12,6 +12,7 @@
 
 void single_thread(size_t, size_t, char);
 void multi_thread_global_var(size_t, size_t, size_t, size_t, char);
+void multi_thread_global_fine_mutex(size_t, size_t, size_t, size_t, char);
 void multi_thread_local_var(size_t, size_t, size_t, size_t, char);
 
 #define DEBUG_MSG(STRING) 

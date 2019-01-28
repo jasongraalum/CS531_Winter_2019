@@ -1,7 +1,7 @@
 IDIR=include
 CC=clang
 DEFINES=
-CFLAGS= -I$(IDIR) -I/usr/local/include -pthread 
+CFLAGS= -I$(IDIR) -I/usr/local/include -g -pg -pthread 
 
 ODIR=obj
 LDIR=lib
@@ -11,7 +11,7 @@ LIBS=
 _DEPS = summation.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = summation.o single_thread.o multi_thread_global_var.o multi_thread_local_var.o
+_OBJ = summation.o single_thread.o multi_thread_global_var.o multi_thread_global_fine_mutex.o multi_thread_local_var.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 
@@ -22,7 +22,7 @@ summation: $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS) -lgsl -lgslcblas $(LIBS)
 
 summation-pg: $(OBJ)
-	$(CC) -o $@ $^ $(CFLAGS) -pg -lgsl -lgslcblas $(LIBS)
+	$(CC) -o $@ $^ $(CFLAGS) -lgsl -lgslcblas $(LIBS)
 
 .PHONY: clean
 
