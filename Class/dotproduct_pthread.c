@@ -34,8 +34,8 @@ typedef struct
 	int    veclen; 
 } DOTDATA;
 
-#define VECLEN 100
-#define NUM_THREADS 10
+#define VECLEN 100000
+#define NUM_THREADS 2
 
 DOTDATA dotstr; 
 
@@ -48,7 +48,7 @@ void *dotprod_sum(void * thread_arg)
 	for (int i = start; i < end; i++) {
 		*local_sum += dotstr.a[i] * dotstr.b[i];
 	}
-	printf("Thread sum = %lf\n", *local_sum);
+	//printf("Thread sum = %lf\n", *local_sum);
 	pthread_exit((void *)local_sum);
 }
 
@@ -104,6 +104,8 @@ void* dotprod(void)
 
 int main (int argc, char* argv[])
 {
+	struct timeval start_time, end_time;
+	gettimeofday(&start_time, NULL);
 	int i,len;
 	double *a, *b;
 
@@ -123,19 +125,16 @@ int main (int argc, char* argv[])
 	dotstr.sum=0;
 
 	/* Perform the  dotproduct */
-	struct timeval start_time, end_time;
 
-
-	gettimeofday(&start_time, NULL);
 	dotprod ();
-	gettimeofday(&end_time, NULL);
-
 
 	/* Print result and release storage */ 
 	printf ("Done. Serial version: sum =  %f \n", dotstr.sum);
+	free (a);
+	free (b);
+
+	gettimeofday(&end_time, NULL);
 	long sec = end_time.tv_sec - start_time.tv_sec;
 	long usec = end_time.tv_usec - start_time.tv_usec;
 	printf("%ld \n", sec*1000000+usec);
-	free (a);
-	free (b);
 }

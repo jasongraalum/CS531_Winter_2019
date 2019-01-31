@@ -32,7 +32,7 @@ typedef struct
 	int    veclen; 
 } DOTDATA;
 
-#define VECLEN 100
+#define VECLEN 100000
 DOTDATA dotstr; 
 
 /*
@@ -76,6 +76,9 @@ void* dotprod(void)
 
 int main (int argc, char* argv[])
 {
+	struct timeval start_time, end_time;
+	struct timeval start_loop_time, end_loop_time;
+	gettimeofday(&start_time, NULL);
 	int i,len;
 	double *a, *b;
 
@@ -96,18 +99,21 @@ int main (int argc, char* argv[])
 
 	/* Perform the  dotproduct */
 
-	struct timeval start_time, end_time;
 
-
-	gettimeofday(&start_time, NULL);
+	gettimeofday(&start_loop_time, NULL);
 	dotprod ();
-	gettimeofday(&end_time, NULL);
+	gettimeofday(&end_loop_time, NULL);
 
 	/* Print result and release storage */ 
 	printf ("Done. Serial version: sum =  %f \n", dotstr.sum);
+	free (a);
+	free (b);
+	gettimeofday(&end_time, NULL);
 	long sec = end_time.tv_sec - start_time.tv_sec;
 	long usec = end_time.tv_usec - start_time.tv_usec;
 	printf("%ld \n", sec*1000000+usec);
-	free (a);
-	free (b);
+
+	sec = end_loop_time.tv_sec - start_loop_time.tv_sec;
+	usec = end_loop_time.tv_usec - start_loop_time.tv_usec;
+	printf("%ld \n", sec*1000000+usec);
 }
