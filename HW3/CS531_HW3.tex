@@ -1,0 +1,98 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{parskip,float}
+\usepackage[shortlabels]{enumitem} 
+\usepackage{listings}
+%\usepackage[margin=1in]{geometry}
+\newcommand{\encode}[1]{\langle #1 \rangle}
+
+\let\tab\quad
+
+\title{\bf HW $\#3$ \\[2ex]
+\rm\normalsize CS410/510: Introduction to Performance Measurement, Modeling and Analysis \\ Due February 6, 2019}
+\date{February 4, 20190}
+\author{Jason Graalum}
+
+\begin{document}
+\maketitle
+
+\paragraph{Part A: Hands-on Experience with pthreads(Class Partner : AJ Wood)} 
+\begin{enumerate}[(1)]
+\item Compare the performance of the sequential version to the performance of the pthreads version. What can you conclude about whether or not one is faster? $[$hint: use confidence intervals$]$\\
+\item How many runs do you need to measure to be able to specify a reasonable confidence interval at $90\%$ confidence? At $95\%$ confidence?\\
+\end{enumerate}
+
+\paragraph{Part B: Using python for statistics} 
+\textit{Write python code to solve the following problems.}
+\begin{enumerate}[(1)]
+
+\item Comparing 3 servers
+\begin{table}[H]
+\begin{tabular}{ l  l  l  l  l }
+Program  & S1 exec time $($sec$)$ &  S2 exec time $($sec$)$        &      S3 exec time $($sec$)$   &   $\#$ Instructions     \\
+1 & 33.4 & 28.8 & 28.3 & $1.45x10^{10}$ \\
+2 &19.9&22.1 &25.3 &$7.97x10^{9}$\\
+3 &6.5&5.3&4.7&$3.11x10^{9}$\\
+4 &84.3&75.8&80.1&$3.77x10^{10}$\\
+5 &101.1&99.4&7.2& $4.56x10^{10}$\\
+\end{tabular}
+\end{table}
+
+\begin{enumerate}[a]
+\item Calculate the mean for the 3 different Systems S1, S2, S3\\
+\begin{verbatim}
+Mean for the 3 different systems S1, S2, S3
+S1 Mean =  49.040000
+S2 Mean = 46.280000
+S3 Mean = 29.120000
+
+\end{verbatim}
+
+\item Calculate the average across the 3 systems of the MIPS rate for each of Programs 1-5 \\
+\begin{verbatim}
+Average across the 3 systems of the MIPS rate for each of Program
+Progam 1 | RunTime Mean: 30.166667(sec)	MIPS Mean: 480.662983(MIPS)
+Progam 2 | RunTime Mean: 22.433333(sec)	MIPS Mean: 355.274889(MIPS)
+Progam 3 | RunTime Mean: 5.500000(sec)	MIPS Mean: 565.454545(MIPS)
+Progam 4 | RunTime Mean: 80.066667(sec)	MIPS Mean: 470.857619(MIPS)
+Progam 5 | RunTime Mean: 69.233333(sec)	MIPS Mean: 658.642273(MIPS)
+
+\end{verbatim}
+\item Using S3 as the basis system, calculate the average speedup for S1 and S2\\
+\begin{verbatim}
+Average speedup for S1 and S2 with S3 as baseline
+S1 Average Speed up = -68.406593%
+S2 Average Speed up = -58.928571%
+
+\end{verbatim}
+\item Determine the coefficient of variation of the execution times for each of the 3 systems\\
+\begin{verbatim}
+Coefficient of variation of the execution times
+S1 Coef. of Variation =  0.844275
+S2 Coef. of Variation =  0.854986
+S3 Coef. of Variation =  1.043166
+
+\end{verbatim}
+\end{enumerate}
+
+
+\item Reporting Meaningful Results\\
+We want to determine, on average, how long it takes to write a file of a particular size to a disk drive.\\
+We take 8 measurements: 8.0 7.0 5.0 9.0 9.5 11.3 5.2 8.5 \\
+
+\begin{enumerate}[label=\alph*]
+\item Calculate a $90\%$ confidence interval for the mean time.\\
+\begin{verbatim}
+8 sample t-score = 1.895 (from df = 7 and A = 0.05)
+90% confidence interval for mean time(c1, c2) = (6.500573, 9.374427)
+\end{verbatim}
+\item How many measurements would be required to be $90\%$ confident that the mean value is within $7\%$ of the actual value?\\
+\begin{verbatim}
+Measurements for 90% confidence with 7% error
+n = 15
+\end{verbatim}
+\end{enumerate}
+
+\end{enumerate}
+
+\end{document}
