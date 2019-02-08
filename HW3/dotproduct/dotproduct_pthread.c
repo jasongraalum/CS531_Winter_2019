@@ -19,6 +19,8 @@
 #include <pthread.h>
 #include <sys/time.h>
 
+int samples;
+int nthreads;
 
 /*   
      The following structure contains the necessary information to allow the 
@@ -34,16 +36,14 @@ typedef struct
 	int    veclen; 
 } DOTDATA;
 
-#define VECLEN 100000
-#define NUM_THREADS 2
 
 DOTDATA dotstr; 
 
 void *dotprod_sum(void * thread_arg)
 {
 	int id = (*(int *)thread_arg);
-	int start = id*(VECLEN/NUM_THREADS);
-	int end = start + VECLEN/NUM_THREADS;
+	int start = id*(samples/nthreads);
+	int end = start + samples/nthreads;
 	double * local_sum = (double *)malloc(sizeof(double));
 	for (int i = start; i < end; i++) {
 		*local_sum += dotstr.a[i] * dotstr.b[i];
@@ -77,17 +77,17 @@ void* dotprod(void)
 	   the structure. 
 	   */
 
-        pthread_t *tid = (pthread_t *)malloc(sizeof(pthread_t) * NUM_THREADS);
-        size_t *slice_count = (size_t *)malloc(sizeof(size_t) * NUM_THREADS);
+        pthread_t *tid = (pthread_t *)malloc(sizeof(pthread_t) * nthreads);
+        size_t *slice_count = (size_t *)malloc(sizeof(size_t) * nthreads);
 	dotstr.sum = 0;
-	for (int i=0; i<NUM_THREADS ; i++) 
+	for (int i=0; i<nthreads ; i++) 
 	{
 	    slice_count[i] = i;
             pthread_create(&tid[i], NULL, dotprod_sum, &slice_count[i]);
         }
 
 	void *thread_sum;
-	for (i=0; i< NUM_THREADS; i++) {
+	for (i=0; i< nthreads; i++) {
 		pthread_join(tid[i], &thread_sum);
 		dotstr.sum += (*(double *)thread_sum);
 	}
@@ -102,6 +102,8 @@ void* dotprod(void)
 
 int main (int argc, char* argv[])
 {
+        samples = atoi(argv[1]);
+        nthreads = atoi(argv[2]);
 	struct timeval start_time, end_time;
 	struct timeval start_loop_time, end_loop_time;
 	gettimeofday(&start_time, NULL);
@@ -110,7 +112,7 @@ int main (int argc, char* argv[])
 	double *a, *b;
 
 	/* Assign storage and initialize values */
-	len = VECLEN;
+	len = samples;
 	a = (double*) malloc (len*sizeof(double));
 	b = (double*) malloc (len*sizeof(double));
 
@@ -138,9 +140,9 @@ int main (int argc, char* argv[])
         gettimeofday(&end_time, NULL);
         long sec = end_time.tv_sec - start_time.tv_sec;
         long usec = end_time.tv_usec - start_time.tv_usec;
-        printf("%ld,", sec*1000000+usec);
+        printf("Total Time: %ld,", sec*1000000+usec);
 
         sec = end_loop_time.tv_sec - start_loop_time.tv_sec;
         usec = end_loop_time.tv_usec - start_loop_time.tv_usec;
-        printf("%ld\n", sec*1000000+usec);
+        printf("Loop Time: %ld\n", sec*1000000+usec);
 }

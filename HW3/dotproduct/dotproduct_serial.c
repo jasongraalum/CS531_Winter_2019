@@ -18,6 +18,8 @@
 #include <stdlib.h>
 #include <sys/time.h>
 
+int samples;
+
 /*   
      The following structure contains the necessary information to allow the 
      function "dotprod" to access its input data and place its output so that 
@@ -32,7 +34,6 @@ typedef struct
 	int    veclen; 
 } DOTDATA;
 
-#define VECLEN 100000
 DOTDATA dotstr; 
 
 /*
@@ -77,6 +78,7 @@ void* dotprod(void)
 
 int main (int argc, char* argv[])
 {
+        samples = atoi(argv[1]);
 	struct timeval start_time, end_time;
 	struct timeval start_loop_time, end_loop_time;
 	gettimeofday(&start_time, NULL);
@@ -84,7 +86,7 @@ int main (int argc, char* argv[])
 	double *a, *b;
 
 	/* Assign storage and initialize values */
-	len = VECLEN;
+	len = samples;
 	a = (double*) malloc (len*sizeof(double));
 	b = (double*) malloc (len*sizeof(double));
 
@@ -113,9 +115,9 @@ int main (int argc, char* argv[])
 	gettimeofday(&end_time, NULL);
 	long sec = end_time.tv_sec - start_time.tv_sec;
 	long usec = end_time.tv_usec - start_time.tv_usec;
-	printf("%ld, ", sec*1000000+usec);
+	printf("Total Time: %ld, ", sec*1000000+usec);
 
 	sec = end_loop_time.tv_sec - start_loop_time.tv_sec;
 	usec = end_loop_time.tv_usec - start_loop_time.tv_usec;
-	printf("%ld\n", sec*1000000+usec);
+	printf("Loop Time: %ld\n", sec*1000000+usec);
 }
