@@ -3,6 +3,7 @@
 \usepackage{parskip,float}
 \usepackage[shortlabels]{enumitem} 
 \usepackage{listings}
+\usepackage{pdfpages}
 %\usepackage[margin=1in]{geometry}
 \newcommand{\encode}[1]{\langle #1 \rangle}
 
@@ -19,7 +20,28 @@
 \paragraph{Part A: Hands-on Experience with pthreads(Class Partner : AJ Wood)} 
 \begin{enumerate}[(1)]
 \item Compare the performance of the sequential version to the performance of the pthreads version. What can you conclude about whether or not one is faster? $[$hint: use confidence intervals$]$\\
+The data from the dotproduct programs in included below:\\
+\begin{table}[H]
+\begin{tabular}{ l  l  l  l  l  l  l  l  l }
+Type      & Confidence&	Conf. Coef&	$\#$ Samples	&Mean&	StdDev&	c1&	c2&	c2-c1 \\
+Serial     &	$90\%$	& 1.645 & 30& 1130.70 &   68.47 &  1110.14 & 1151.26 & 41.13\\
+Pthread	 & $90\%$    & 1.645 & 30& 1420.07 & 254.33 & 1343.68 & 1496.45 &	 52.77\\
+Serial     &	$95\%$    & 1.96   & 30& 1130.70 &    68.47 & 1106.20 & 1155.20 & 49.00\\
+Pthread	 &$95\%$	    & 1.96   & 30& 1420.07 & 254.33 &1329.06 & 1511.08 & 182.02\\
+\end{tabular}
+\end{table}
+From this data, it seems evident that the serial program is faster as well as being more "consistent".  However, when I looked at the data closer and ran more samples, both the pthread and serial programs have some significant outliers.  This is shown in the attached graphs. \\ 
+By running more samples($>$1000), I saw that there is a regularity to the outliers. My conclusion is that there is an OS timer interrupting the execution and that the pthread version is more susceptible to these interruptions and that improvements in the code may produce different results where the pthread version could have better performance.
+
+
 \item How many runs do you need to measure to be able to specify a reasonable confidence interval at $90\%$ confidence? At $95\%$ confidence?\\
+To find the number of runs, I use the pthread program data as this has the larger standard deviation - which is consistent with the larger impact the OS interrupts have on the run times. I also use $5\%$ as a reasonable level of confidence.\\
+
+At 90$\%$:\\
+$n = (z_{1-\alpha/2}\times s/e\times\bar{x})^2 = (1.65 \times 254.33)/0.05\times1420.07)^2 = 35$  samples\\
+
+At 95$\%$:\\
+$n = (z_{1-\alpha/2}\times s/e\times\bar{x})^2 = (1.96 \times 254.33)/0.05\times1420.07)^2 = 50 $ samples\\
 \end{enumerate}
 
 \paragraph{Part B: Using python for statistics} 
@@ -95,4 +117,6 @@ n = 15
 
 \end{enumerate}
 
+\includepdf{pthread_graph.pdf}
+\includepdf{serial_graph.pdf}
 \end{document}
