@@ -1,0 +1,10 @@
+mpirun --map-by ppr:2:node -n 8  -hostfile mpi_hosts ./mergeSortMPI 10000000
+Process #3 of 8 on cpi2 took 0.953791 seconds 
+Process #5 of 8 on cpi3 took 1.887341 seconds 
+Process #1 of 8 on cpi1 took 5.824375 seconds 
+Process #7 of 8 on cpi4 took 0.971990 seconds 
+Process #2 of 8 on cpi2 took 6.092366 seconds 
+Process #6 of 8 on cpi4 took 3.655844 seconds 
+Process #4 of 8 on cpi3 took 7.804590 seconds 
+Process #0 of 8 on cpi1 took 4.796311 seconds 
+Sorting 10000000 integers took 10.717423 seconds 
