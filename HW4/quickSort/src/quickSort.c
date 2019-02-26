@@ -1,3 +1,14 @@
+// Copyright (c) 2019 Jason Graalum,
+//
+// CS 531 Performance Analysis
+// Portland State University
+// Winter 2019
+//
+// Jason Graalum
+// Feb 24, 2019
+//
+// Code adapted from mergeSort.c
+//
 #include <stdio.h>   // printf
 #include <stdlib.h>  // malloc, free, rand(), srand()
 #include <time.h>    // time for random generator
@@ -142,24 +153,6 @@ void printList(char arrayName[], int array[], int arraySize) {
 }
 
 /*-------------------------------------------------------------------
- * Function:    Compare - An Introduction to Parallel Programming by Pacheco
- * Purpose:     Compare 2 ints, return -1, 0, or 1, respectively, when
- *              the first int is less than, equal, or greater than
- *              the second.  Used by qsort.
- */
-
-int compare(const void* a_p, const void* b_p) {
-    int a = *((int*)a_p);
-    int b = *((int*)b_p);
-
-    if (a < b)
-        return -1;
-    else if (a == b)
-        return 0;
-    else /* a > b */
-        return 1;
-}
-/*-------------------------------------------------------------------
  * Function:    partition
  * Purpose:     implements quick sort partition
  * Params:	lo, hi - indexes of array
@@ -171,8 +164,8 @@ int partition(int * A, int lo, int hi)
     int pivot = A[(lo+hi)/2];
     int i = lo - 1;
     int j = hi + 1;
-    printList("Pre-Paritition", A,hi-lo+1);
-    printf("Partition with pivot %d from %d to %d\t", pivot, lo, hi);
+    //printList("Pre-Paritition", A,hi-lo+1);
+    //printf("Partition with pivot %d from %d to %d\t", pivot, lo, hi);
     while(1) {
         do {
             i++;
@@ -181,8 +174,8 @@ int partition(int * A, int lo, int hi)
             j--;
         } while(A[j] > pivot);
         if(i >= j) {
-            printf(" Pivot = %d at %d\n",pivot, j);
-            printList("Parititioned", A,hi-lo+1);
+            //printf(" Pivot = %d at %d\n",pivot, j);
+            //printList("Parititioned", A,hi-lo+1);
             return(j);
         }
 
