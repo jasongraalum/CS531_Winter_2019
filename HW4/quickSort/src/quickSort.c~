@@ -42,7 +42,6 @@ int main(int argc, char** argv) {
     time_t startTime, localTime, totalTime;
     time_t zeroStartTime, zeroTotalTime, processStartTime, processTotalTime;
     void * ret;
-    Array global;
     pthread_t *tid;
 
 
